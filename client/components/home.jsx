@@ -1,18 +1,31 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import Head from './head'
-// import wave from '../assets/images/wave.jpg'
+
+// import history from '../redux/history'
 
 const Home = () => {
-  const [counter, setCounterNew] = useState(0)
+  const [user, setUser] = useState('')
 
+  const onChange = (name) => {
+    setUser(name)
+  }
   return (
     <div>
       <Head title="Dashboard" />
-      <img alt="wave" src="images/wave.jpg" />
-      <button type="button" onClick={() => setCounterNew(counter + 1)}>
-        updateCounter
-      </button>
-      <div> Hello World Dashboard {counter} </div>
+      <div className="flex flex-row justify-center w-full p-4">
+        <div className="flex flex-col justify-center items-center w-1/2 bg-yellow-300 border rounded-md items-center font-bold p-4">
+          Enter your name:
+          <input type="text" onChange={(e) => onChange(e.target.value)} value={user} />
+          <Link
+            type="button"
+            className="p-2 m-2 bg-indigo-400 rounded-md font-semibold text-white"
+            to={`/${user}`}
+          >
+            Go to...
+          </Link>
+        </div>
+      </div>
     </div>
   )
 }

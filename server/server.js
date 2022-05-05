@@ -1,5 +1,6 @@
 import express from 'express'
 import path from 'path'
+import axios from 'axios'
 import cors from 'cors'
 import sockjs from 'sockjs'
 import { renderToStaticNodeStream } from 'react-dom/server'
@@ -34,9 +35,22 @@ const middleware = [
 
 middleware.forEach((it) => server.use(it))
 
-server.use('/api/', (req, res) => {
-  res.status(404)
-  res.end()
+server.use(cookieParser())
+
+server.get('/api/v1/users', async (req, res) => {
+  const { data: users } = await axios('http://dummy.restapiexample.com/api/v1/employees')
+  res.json(users)
+})
+server.get('/api/v1/users/take/:number', async (req, res) => {
+  const { number } = req.params
+
+  const { data: users } = await axios('http://dummy.restapiexample.com/api/v1/employees')
+  res.json(users.data.slice(0, +number))
+})
+
+server.get('/api/v1/users/:name', (req, res) => {
+  const { name } = req.params
+  res.json({ name })
 })
 
 const [htmlStart, htmlEnd] = Html({

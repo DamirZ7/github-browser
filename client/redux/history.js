@@ -6,4 +6,5 @@ if (typeof document !== 'undefined') {
   createHistory = require('history').createMemoryHistory
 }
 const history = createHistory
+
 export default history
